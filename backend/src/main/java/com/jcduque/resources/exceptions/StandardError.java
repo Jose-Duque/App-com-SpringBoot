@@ -8,10 +8,19 @@ public class StandardError implements Serializable {
 	
 	private Instant timestamp;
 	private Integer status;
-	private String error;
+	private String erros;
 	private String message;
 	private String path;
+	private String paraTeste;
 	
+	public String getParaTeste() {
+		return paraTeste;
+	}
+
+	public void setParaTeste(String paraTeste) {
+		this.paraTeste = paraTeste;
+	}
+
 	public StandardError() {
 	}
 
@@ -31,12 +40,12 @@ public class StandardError implements Serializable {
 		this.status = status;
 	}
 
-	public String getError() {
-		return error;
+	public String getErros() {
+		return erros;
 	}
 
-	public void setError(String error) {
-		this.error = error;
+	public void setErros(String erros) {
+		this.erros = erros;
 	}
 
 	public String getMessage() {

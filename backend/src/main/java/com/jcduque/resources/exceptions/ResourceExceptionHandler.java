@@ -20,9 +20,10 @@ public class ResourceExceptionHandler {
 		StandardError error = new StandardError();
 		error.setTimestamp(Instant.now());
 		error.setStatus(HttpStatus.NOT_FOUND.value());
-		error.setError("Recurso não encontrado");
+		error.setErros("Recurso não encontrado");
 		error.setMessage(e.getMessage());
 		error.setPath(request.getRequestURI());
+		error.setParaTeste("Somente testando");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
 }
