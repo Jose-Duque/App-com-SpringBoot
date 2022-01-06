@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jcduque.dto.CategoryDTO;
 import com.jcduque.dto.ProductDTO;
 import com.jcduque.dto.ProductDTO;
 import com.jcduque.entities.Category;
@@ -51,7 +52,7 @@ public class ProductService {
 	@Transactional
 	public ProductDTO insert(ProductDTO dto) {
 		Product entity = new Product();
-		entity.setName(dto.getName());
+		copyToEntity(dto, entity);
 		entity = repository.save(entity);
 		return new ProductDTO(entity);
 	}
@@ -59,8 +60,9 @@ public class ProductService {
 	@Transactional
 	public ProductDTO update(Long id, ProductDTO dto) {
 		try {
+			@SuppressWarnings("deprecation")
 			Product entity = repository.getOne(id);
-			entity.setName(dto.getName());
+			copyToEntity(dto, entity);
 			entity = repository.save(entity);
 			return new ProductDTO(entity);
 		}
@@ -78,6 +80,20 @@ public class ProductService {
 		}
 		catch (DataIntegrityViolationException e) {
 			
+		}
+	}
+	
+	private void copyToEntity(ProductDTO productDTO, Product entity) {
+		entity.setName(productDTO.getName());
+		entity.setPrice(productDTO.getPrice());
+		entity.setDescription(productDTO.getDescription());
+		entity.setDate(productDTO.getDate());
+		entity.setImgUrl(productDTO.getImgUrl());
+		
+		entity.getCategories().clear();
+		for (CategoryDTO cat : productDTO.getCategories()) {
+			Category category = categoryRepository.getOne(cat.getId());
+			entity.getCategories().add(category);
 		}
 	}
 }
